@@ -39,7 +39,7 @@ const exercises = ref([
 ])
 
 const navigateToCreate = () => {
-  router.push('/admin/writing-part-one/create')
+  router.push('/admin/writing/part-one/create')
 }
 
 const editExercise = (id: number) => {

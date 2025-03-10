@@ -6,7 +6,7 @@
     <div class="px-6 py-4">
       <slot></slot>
     </div>
-  </div>ç
+  </div>
 </template>
 
 <script>
