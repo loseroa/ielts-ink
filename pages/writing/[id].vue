@@ -50,10 +50,50 @@
         <button 
           @click="submitEssay" 
           class="px-8 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-          :disabled="!isStarted"
+          :disabled="!isStarted || isSubmitting"
         >
-          Submit Essay
+          {{ isSubmitting ? 'Evaluating...' : 'Submit Essay' }}
         </button>
+      </div>
+
+      <!-- Evaluation Results -->
+      <div v-if="evaluation" class="mt-8 bg-white rounded-lg p-6 shadow-lg">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Evaluation Results</h2>
+        
+        <!-- Overall Score -->
+        <div class="mb-6">
+          <div class="text-xl font-semibold text-gray-800 mb-2">Overall Score</div>
+          <div class="text-3xl font-bold text-blue-600">{{ evaluation.overallScore }}/9.0</div>
+        </div>
+
+        <!-- Detailed Scores -->
+        <div class="grid grid-cols-2 gap-6 mb-6">
+          <div v-for="(score, category) in evaluation.detailedScores" :key="category" 
+               class="bg-gray-50 p-4 rounded-lg">
+            <div class="text-sm font-medium text-gray-500 uppercase">{{ category }}</div>
+            <div class="text-xl font-semibold text-gray-800">{{ score }}/9.0</div>
+          </div>
+        </div>
+
+        <!-- Feedback -->
+        <div class="space-y-4">
+          <div class="text-xl font-semibold text-gray-800 mb-2">Detailed Feedback</div>
+          <div v-for="(feedback, index) in evaluation.feedback" :key="index" 
+               class="bg-gray-50 p-4 rounded-lg">
+            <div class="font-medium text-gray-800 mb-1">{{ feedback.category }}</div>
+            <div class="text-gray-600">{{ feedback.comment }}</div>
+          </div>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="mt-6">
+          <div class="text-xl font-semibold text-gray-800 mb-2">Suggestions for Improvement</div>
+          <ul class="list-disc list-inside space-y-2 text-gray-600">
+            <li v-for="(suggestion, index) in evaluation.suggestions" :key="index">
+              {{ suggestion }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </template>
@@ -66,6 +106,8 @@
         isStarted: false,
         timeRemaining: 40 * 60, // 40 minutes in seconds
         timerInterval: null,
+        evaluation: null,
+        isSubmitting: false,
       }
     },
     computed: {
@@ -96,9 +138,31 @@
         const remainingSeconds = seconds % 60;
         return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
       },
-      submitEssay() {
-        // Handle essay submission
-        console.log('Essay submitted:', this.essayContent)
+      async submitEssay() {
+        this.isSubmitting = true;
+        try {
+          const response = await fetch('/api/evaluate-essay', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ essay: this.essayContent }),
+          });
+          
+          if (!response.ok) {
+            throw new Error('Failed to evaluate essay');
+          }
+  
+          const result = await response.json();
+          console.log('Evaluation result:', result);
+          this.evaluation = JSON.parse(result.evaluation);
+          this.endTest();
+        } catch (error) {
+          console.error('Error submitting essay:', error);
+          alert('Failed to evaluate essay. Please try again.');
+        } finally {
+          this.isSubmitting = false;
+        }
       }
     },
     beforeDestroy() {
