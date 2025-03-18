@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="space-y-6 max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <form @submit.prevent="handleSubmit" class="space-y-6 max-w-2xl mx-auto p-6">
     <div>
       <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
       <input
@@ -69,6 +69,7 @@
         type="submit"
         class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
       >
+        <span v-if="isSubmitting" class="loader"></span>
         Save Exercise
       </button>
     </div>
@@ -76,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import type { NewExercise } from '@/types/exercise'
 
 const emit = defineEmits<{
@@ -92,7 +93,39 @@ const form = reactive<NewExercise>({
   questionText: ''
 })
 
-const handleSubmit = () => {
-  emit('submit', { ...form })
+const isSubmitting = ref(false)
+
+const handleSubmit = async () => {
+  isSubmitting.value = true
+  try {
+    await emit('submit', { ...form })
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
+
+<style>
+/* Add this style block for the loading icon */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #3498db;
+  width: 16px;
+  height: 16px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

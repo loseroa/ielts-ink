@@ -1,7 +1,7 @@
 <template>
     <div class="p-6">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-semibold text-gray-800">Writing Part 2 Exercises</h1>
+        <h1 class="text-2xl font-semibold text-gray-800">Reading Exercises</h1>
         <button 
           @click="navigateToCreate" 
           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
@@ -25,27 +25,25 @@
   import { useRouter } from 'vue-router'
   
   definePageMeta({
-    title: 'Writing Part 1 Exercises',
+    title: 'Reading Exercises',
     layout: 'admin'
   })
   
   const router = useRouter()
   
-// Mock data - replace with actual API call
-const exercises = ref([
-    { id: 1, title: 'Technology and Society', category: 'Technology' },
-    { id: 2, title: 'Environmental Issues', category: 'Environment' },
-    { id: 3, title: 'Education Systems', category: 'Education' },
-    { id: 4, title: 'Cultural Traditions', category: 'Culture' },
-    { id: 5, title: 'Work and Career', category: 'Work' }
-])
+  // Mock data - replace with actual API call
+  const exercises = ref([
+    { id: 1, title: 'Bar Chart Analysis', category: 'Charts' },
+    { id: 2, title: 'Line Graph Trends', category: 'Graphs' },
+    { id: 3, title: 'Process Diagram', category: 'Process' },
+  ])
   
   const navigateToCreate = () => {
     router.push('/admin/writing/part-one/create')
   }
   
   const editExercise = (id: number) => {
-    router.push(`/admin/writing/part-one/${id}/edit`)
+    router.push(`/admin/reading/${id}/edit`)
   }
   </script>
   

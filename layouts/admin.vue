@@ -9,17 +9,17 @@
         </div>
         <nav class="mt-6">
           <div class="px-4 space-y-2">
-            <NuxtLink to="/admin" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
-              <span class="mx-4">Dashboard</span>
-            </NuxtLink>
-            <NuxtLink to="/admin/writing-part-one" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
+            <NuxtLink to="/admin/writing/part-one" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
               <span class="mx-4">Writing Part 1</span>
+            </NuxtLink>
+            <NuxtLink to="/admin/writing/part-two" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
+              <span class="mx-4">Writing Part 2</span>
+            </NuxtLink>
+            <NuxtLink to="/admin/writing/part-two" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
+              <span class="mx-4">Reading</span>
             </NuxtLink>
             <a href="#" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
               <span class="mx-4">Users</span>
-            </a>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
-              <span class="mx-4">Essays</span>
             </a>
             <a href="#" class="flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100">
               <span class="mx-4">Settings</span>
@@ -49,7 +49,7 @@
             <div class="flex items-center">
               <div class="relative">
                 <button class="flex items-center space-x-2 text-gray-600">
-                  <img class="w-8 h-8 rounded-full" src="https://via.placeholder.com/32" alt="User avatar" />
+                  <img class="w-8 h-8 rounded-full" :src="defaultAvatar" alt="User avatar" />
                   <span>Admin User</span>
                 </button>
               </div>
@@ -67,6 +67,7 @@
   
   <script setup lang="ts">
   import { ref } from 'vue'
+  import defaultAvatar from '~/assets/images/default-avatar.jpg'
   
   const isSidebarOpen = ref(true)
   

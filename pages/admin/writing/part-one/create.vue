@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 max-w-3xl mx-auto">
+  <div class="p-6 mx-auto">
     <div class="mb-6">
       <h1 class="text-2xl font-semibold text-gray-800">Create Writing Part 1 Exercise</h1>
     </div>

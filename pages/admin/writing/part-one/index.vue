@@ -43,6 +43,6 @@ const navigateToCreate = () => {
 }
 
 const editExercise = (id: number) => {
-  router.push(`/admin/writing-part-one/${id}/edit`)
+  router.push(`/admin/writing/part-one/${id}/edit`)
 }
 </script>

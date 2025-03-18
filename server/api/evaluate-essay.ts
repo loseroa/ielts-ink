@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
             {
                 overallScore,
                 detailedScores
-                feedback,
+                feedback: [{category, commment}],
                 suggestions
             }
 
